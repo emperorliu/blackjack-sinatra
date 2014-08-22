@@ -111,6 +111,7 @@ get '/game/dealer' do
   @show_hit_or_stay_buttons = false
 
   dealer_total = calculate_total(session[:dealer_cards])
+  
   if dealer_total == 21
     @error = "Sorry, dealer hit blackjack."
   elsif dealer_total > 21
@@ -137,7 +138,7 @@ get '/game/compare' do
   dealer_total = calculate_total(session[:dealer_cards])
 
   if player_total < dealer_total
-    @error = "sorry, you lost."
+    @error = "Sorry, you lost."
   elsif player_total > dealer_total
     @success = "Congrats, you won!"
   else
