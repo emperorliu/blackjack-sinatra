@@ -6,6 +6,7 @@ set :sessions, true
 
 BLACKJACK_AMOUNT = 21
 DEALER_MIN_HIT = 17
+POT_AMOUNT = 500
 
 helpers do
   def calculate_total(cards)
@@ -55,20 +56,23 @@ helpers do
   end
 
   def winner!(msg)
+    session[:player_pot] += session[:player_bet]
     @show_hit_or_stay_buttons = false
-    @success = "<strong>#{session[:username]} wins!</strong> #{msg}"
+    @winner = "<strong>#{session[:username]} wins!</strong> #{msg} #{session[:username]} now has $#{session[:player_pot]}"
     @play_again = true
+
   end
 
   def loser!(msg)
+    session[:player_pot] -= session[:player_bet]
     @show_hit_or_stay_buttons = false
-    @error = "<strong>#{session[:username]} loses!</strong> #{msg}"
+    @loser = "<strong>#{session[:username]} loses!</strong> #{msg} #{session[:username]} now has $#{session[:player_pot]}"
     @play_again = true
   end
 
   def tie!(msg)
     @show_hit_or_stay_buttons = false
-    @success = "<strong>It's a tie!</strong> #{msg}"
+    @winner = "<strong>It's a tie!</strong> #{msg} #{session[:username]} now has $#{session[:player_pot]}"
     @play_again = true
   end
 
@@ -80,6 +84,7 @@ before do
 end
 
 get '/' do
+  session[:player_pot] = POT_AMOUNT
   erb :form
 end
 
@@ -90,11 +95,29 @@ post '/' do
   end
 
   session[:username] = params[:username]
-  redirect '/game'
+  redirect '/bet'
+end
+
+get '/bet' do
+  session[:player_bet] = nil
+  erb :bet
+end
+
+post '/bet' do
+  if params[:bet].empty? || params[:bet].to_i == 0 
+    @error = "Must make a bet"
+    halt erb(:bet)
+  elsif params[:bet].to_i > session[:player_pot]
+    @error = "Bet amount cannot be greater than $#{session[:player_pot]}."
+  else
+    session[:player_bet] = params[:bet].to_i
+    redirect '/game'
+  end
 end
 
 get '/game' do
   session[:turn] = session[:username]
+  session[:total] = session[:player_pot]
   #set up initial values
   suits = ["s", "d", "c", "h"]
   numbers = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]
@@ -125,7 +148,7 @@ post '/game/player/hit' do
     loser!("Sorry, it looks like #{session[:username]} busted!")
   end
 
-  erb :game
+  erb :game, layout: false
 end
 
 post '/game/player/stay' do
