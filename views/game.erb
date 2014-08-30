@@ -34,7 +34,7 @@ Welcome <%= session[:username] %>
     <% if @show_dealer_hit_button %>
       <p>
         <h5>Dealer has <%= calculate_total(session[:dealer_cards])%> and will hit.</h5>
-          <form action='/game/dealer/hit' method='post'>
+          <form id='dealer_hit' action='/game/dealer/hit' method='post'>
             <input type='submit' class='btn btn-primary' value='Click to see dealer card'/>
           </form>
       </p>

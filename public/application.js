@@ -23,7 +23,20 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "/game/player/stay"
-    });.done(function(msg){
+    }).done(function(msg){
+      $('#game').replaceWith(msg)
+    });
+
+    return false;
+  });
+
+  $(document).on("click", "form#dealer_hit input", function(){
+    alert("dealer hits!");
+
+    $.ajax({
+      type: "POST",
+      url: "/game/dealer/hit"
+    }).done(function(msg){
       $('#game').replaceWith(msg)
     });
 
