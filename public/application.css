@@ -10,6 +10,15 @@ form#stay {
 img.card_image {
   margin: 5px 5px 5px 5px;
   width: auto;
-  height: 170px;
+  height: 160px;
 }
 
+body {
+  background-image: url('http://godaddycasino.com/images/green-pattern-wallpapers-backgrounds-for-powerpoint%5B1%5D%20-%20Copy.jpg');
+  background-repeat: repeat-y;
+  color: white;
+}
+
+.well {
+  background-color: #588A26;
+}
