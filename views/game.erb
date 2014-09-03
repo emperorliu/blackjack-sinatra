@@ -44,7 +44,7 @@ Welcome <%= session[:username] %>
 <br />
 
 <div class="well" id='player_cards'>
-  <a id='player_color' href="#"> change it to yellow</a>
+<!--   <a id='player_color' href="#"> change it to yellow</a> -->
   <h4><%= session[:username] %>'s cards:</h4>
     <% session[:player_cards].each do |card| %>
       <%= card_image(card) %>

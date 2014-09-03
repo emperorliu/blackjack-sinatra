@@ -1,8 +1,9 @@
 $(document).ready(function() {
-  $('#player_color').click(function(){
-    $('#player_cards').css('background-color', 'yellow')
-    return false;
-  });
+  
+  // $('#player_color').click(function(){
+  //   $('#player_cards').css('background-color', 'yellow')
+  //   return false;
+  // });
 
   $(document).on("click", "form#hit input", function(){
     alert("player hits!");
